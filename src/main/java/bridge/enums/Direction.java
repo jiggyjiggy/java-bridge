@@ -20,21 +20,24 @@ public enum Direction {
 
     // 이넘 목적에 맞지 않음
     public static String getGuide() {
-        StringBuilder guides = new StringBuilder();
-        int count = 0;
+        StringBuilder guide = new StringBuilder();
         int totalDirectionCount = Direction.values().length;
 
-        guides.append("(");
-        for (Direction directions :
-                Direction.values()) {
+        guide.append("(");
+        makeGuide(guide, totalDirectionCount);
+        guide.append(")");
+        return guide.toString();
+    }
+
+    private static void makeGuide(StringBuilder guide, int totalDirectionCount) {
+        int count = 0;
+        for (Direction directions : Direction.values()) {
             count++;
-            guides.append(directions.description).append(": ").append(directions.shortcut);
+            guide.append(directions.description).append(": ").append(directions.shortcut);
             if (count != totalDirectionCount) {
-                guides.append(", ");
+                guide.append(", ");
             }
         }
-        guides.append(")");
-        return guides.toString();
     }
 
     public static boolean contains(String input) {
@@ -48,11 +51,13 @@ public enum Direction {
                 .filter(element -> element.directionNumber == number)
                 .findFirst().get().shortcut;
     }
+
     public static Direction find(String direction) {
         return Arrays.stream(Direction.values())
                 .filter(element -> element.shortcut.equals(direction))
                 .findFirst().get();
     }
+
     public static List<Direction> convertBridge(List<String> directions) {
         return directions.stream()
                 .map(Direction::find)
@@ -62,6 +67,7 @@ public enum Direction {
     public boolean isUp() {
         return this.equals(UP);
     }
+
     public boolean isDown() {
         return this.equals(DOWN);
 

@@ -16,15 +16,15 @@ public class InputView {
     public InputView(OutputView outputView) {
         this.outputView = outputView;
     }
+
     /**
      * 다리의 길이를 입력받는다.
      */
     public int readBridgeSize() {
-        String input;
-        while (true) {
+        String input = null;
+        while (input == null) {
             try {
                 input = inputBridgeSize();
-                break;
             } catch (IllegalArgumentException illegalArgumentException) {
                 outputView.printMessage(illegalArgumentException.getMessage());
             }
@@ -33,18 +33,21 @@ public class InputView {
     }
 
     private String inputBridgeSize() {
-        outputView.printSpaceLineAndMessage(Announcement.INPUT_BRIDGE_SIZE.getMessage());
-        String input = Console.readLine();
-        validateInteger(input);
-        validateBridgeRange(input);
-        return input;
+        try {
+            outputView.printSpaceLineAndMessage(Announcement.INPUT_BRIDGE_SIZE.getMessage());
+            String input = Console.readLine();
+            validateInteger(input);
+            validateBridgeRange(input);
+            return input;
+        } catch (NumberFormatException | BridgeSizeException exception) {
+            throw new BridgeSizeException(new IllegalArgumentException().getMessage());
+        }
     }
-
     private void validateInteger(String input) {
         try {
             Integer.parseInt(input);
         } catch (NumberFormatException numberFormatException) {
-            throw new BridgeSizeException(numberFormatException.getMessage());
+            throw new NumberFormatException();
         }
     }
     private void validateBridgeRange(String input) {
@@ -58,11 +61,10 @@ public class InputView {
      * 사용자가 이동할 칸을 입력받는다.
      */
     public Direction readMoving() {
-        String input;
-        while (true) {
+        String input = null;
+        while (input == null) {
             try {
                 input = inputMoving();
-                break;
             } catch (IllegalArgumentException illegalArgumentException) {
                 outputView.printMessage(illegalArgumentException.getMessage());
             }
@@ -71,16 +73,18 @@ public class InputView {
     }
 
     private String inputMoving() {
-        outputView.printSpaceLineAndMessage(Announcement.INPUT_MOVING_DIRECTION.getMessage(), Direction.getGuide());
-        String input = Console.readLine();
-        validateMoving(input);
-        return input;
+        try {
+            outputView.printSpaceLineAndMessage(Announcement.INPUT_MOVING_DIRECTION.getMessage(), Direction.getGuide());
+            String input = Console.readLine();
+            validateMoving(input);
+            return input;
+        } catch (IllegalArgumentException e) {
+            throw new DirectionException(new IllegalArgumentException().getMessage(), Direction.getGuide());
+        }
     }
     private void validateMoving(String input) {
         if (!Direction.contains(input)) {
-            throw new DirectionException(
-                    new IllegalArgumentException().getMessage(),
-                    Direction.getGuide());
+            throw new DirectionException(new IllegalArgumentException().getMessage(), Direction.getGuide());
         }
     }
 
@@ -88,28 +92,31 @@ public class InputView {
      * 사용자가 게임을 다시 시도할지 종료할지 여부를 입력받는다.
      */
     public GameCommand readGameCommand() throws GameCommandException {
-        String input;
-        while (true) {
+        String input = null;
+        while (input == null) {
             try {
                 input = inputGameCommand();
-                break;
             } catch (IllegalArgumentException illegalArgumentException) {
                 outputView.printMessage(illegalArgumentException.getMessage());
             }
         }
         return GameCommand.find(input);
     }
+
     private String inputGameCommand() {
-        outputView.printSpaceLineAndMessage(Announcement.INPUT_RETRY_OR_QUIT.getMessage(), GameCommand.getGuide());
-        String input = Console.readLine();
-        validateGameCommand(input);
-        return input;
+        try {
+            outputView.printSpaceLineAndMessage(Announcement.INPUT_RETRY_OR_QUIT.getMessage(), GameCommand.getGuide());
+            String input = Console.readLine();
+            validateGameCommand(input);
+            return input;
+        } catch (Exception e) {
+            throw new DirectionException(new IllegalArgumentException().getMessage(), Direction.getGuide());
+        }
     }
+
     private void validateGameCommand(String input) {
         if (!GameCommand.contains(input)) {
-            throw new GameCommandException(
-                    new IllegalArgumentException().getMessage(),
-                    GameCommand.getGuide());
+            throw new GameCommandException(new IllegalArgumentException().getMessage(), GameCommand.getGuide());
         }
     }
 

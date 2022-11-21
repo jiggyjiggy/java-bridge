@@ -7,27 +7,33 @@ public enum GameCommand {
     QUIT("Q", "종료");
     private final String shortcut;
     private final String description;
+
     GameCommand(String shortcut, String description) {
         this.shortcut = shortcut;
         this.description = description;
     }
+
     public static String getGuide() {
-        StringBuilder guides = new StringBuilder();
-        int count = 0;
+        StringBuilder guide = new StringBuilder();
         int totalCommandCount = GameCommand.values().length;
 
-        guides.append("(");
-        for (GameCommand gameCommand:
-                GameCommand.values()) {
+        guide.append("(");
+        makeGuide(guide, totalCommandCount);
+        guide.append(")");
+        return guide.toString();
+    }
+
+    private static void makeGuide(StringBuilder guide, int totalCommandCount) {
+        int count = 0;
+        for (GameCommand gameCommand : GameCommand.values()) {
             count++;
-            guides.append(gameCommand.description).append(": ").append(gameCommand.shortcut);
+            guide.append(gameCommand.description).append(": ").append(gameCommand.shortcut);
             if (count != totalCommandCount) {
-                guides.append(", ");
+                guide.append(", ");
             }
         }
-        guides.append(")");
-        return guides.toString();
     }
+
     public static boolean contains(String input) {
         return Arrays.stream(GameCommand.values())
                 .map(element -> element.shortcut)
