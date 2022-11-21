@@ -2,7 +2,6 @@ package bridge;
 
 import bridge.enums.Announcement;
 import bridge.enums.GameCommand;
-import bridge.enums.MovingDirection;
 import bridge.view.InputView;
 import bridge.view.OutputView;
 
@@ -19,7 +18,6 @@ public class BridgeGameMachine {
     }
 
     public void setUpGame() {
-        outputView.printSpaceLineAndMessage(Announcement.INPUT_BRIDGE_SIZE.getMessage());
         Bridge bridge = new Bridge(bridgeMaker.makeBridge(inputView.readBridgeSize()));
         bridgeGame = new BridgeGame(bridge, bridgeMaker);
     }
@@ -37,19 +35,11 @@ public class BridgeGameMachine {
 
     private void playStage() {
         while (bridgeGame.canMoving()) {
-            outputView.printSpaceLineAndMessageAddGuide(
-                    Announcement.INPUT_MOVING_DIRECTION.getMessage(),
-                    MovingDirection.getGuide()
-            );
             bridgeGame.move(inputView.readMoving());
             outputView.printMap(bridgeGame);
         }
     }
     private void askRetryOrQuit() {
-        outputView.printSpaceLineAndMessageAddGuide(
-                Announcement.INPUT_RETRY_OR_QUIT.getMessage(),
-                GameCommand.getGuide()
-        );
         GameCommand command = inputView.readGameCommand();
         if (command.isRetry()) {
             bridgeGame.retry();

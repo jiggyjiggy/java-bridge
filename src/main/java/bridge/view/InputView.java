@@ -1,10 +1,11 @@
 package bridge.view;
 
+import bridge.enums.Announcement;
 import bridge.enums.GameCommand;
-import bridge.enums.MovingDirection;
+import bridge.enums.Direction;
 import bridge.exception.BridgeSizeException;
 import bridge.exception.GameCommandException;
-import bridge.exception.MovingDirectionException;
+import bridge.exception.DirectionException;
 import camp.nextstep.edu.missionutils.Console;
 
 /**
@@ -18,23 +19,26 @@ public class InputView {
      */
     public int readBridgeSize() {
         try {
+            outputView.printSpaceLineAndMessage(Announcement.INPUT_BRIDGE_SIZE.getMessage());
             String input = Console.readLine();
-            validateInteger(input);
-            validateRange(input);
+            validateBridgeSize(input);
             return Integer.parseInt(input);
         } catch (IllegalArgumentException illegalArgumentException) {
             outputView.printMessage(illegalArgumentException.getMessage());
             return readBridgeSize();
         }
     }
+    private void validateBridgeSize(String input) {
+        validateInteger(input);
+        validateRange(input);
+    }
     private void validateInteger(String input) {
         try {
             Integer.parseInt(input);
-        } catch (NumberFormatException e) {
-            throw new BridgeSizeException(e.getMessage());
+        } catch (NumberFormatException numberFormatException) {
+            throw new BridgeSizeException(numberFormatException.getMessage());
         }
     }
-
     private void validateRange(String input) {
         int inputNumber = Integer.parseInt(input);
         if (inputNumber < 3 || 20 < inputNumber) {
@@ -45,11 +49,12 @@ public class InputView {
     /**
      * 사용자가 이동할 칸을 입력받는다.
      */
-    public MovingDirection readMoving() {
+    public Direction readMoving() {
         try {
+            outputView.printSpaceLineAndMessage(Announcement.INPUT_MOVING_DIRECTION.getMessage(), Direction.getGuide());
             String input = Console.readLine();
             validateMoving(input);
-            return MovingDirection.find(input);
+            return Direction.find(input);
         } catch (IllegalArgumentException illegalArgumentException) {
             outputView.printMessage(illegalArgumentException.getMessage());
             return readMoving();
@@ -57,10 +62,10 @@ public class InputView {
     }
 
     private void validateMoving(String input) {
-        if (!MovingDirection.contains(input)) {
-            throw new MovingDirectionException(
+        if (!Direction.contains(input)) {
+            throw new DirectionException(
                     new IllegalArgumentException().getMessage(),
-                    MovingDirection.getGuide());
+                    Direction.getGuide());
         }
     }
 
@@ -69,6 +74,7 @@ public class InputView {
      */
     public GameCommand readGameCommand() {
         try {
+            outputView.printSpaceLineAndMessage(Announcement.INPUT_RETRY_OR_QUIT.getMessage(), GameCommand.getGuide());
             String input = Console.readLine();
             validateGameCommand(input);
             return GameCommand.find(input);

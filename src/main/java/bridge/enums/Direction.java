@@ -2,7 +2,7 @@ package bridge.enums;
 
 import java.util.Arrays;
 
-public enum MovingDirection {
+public enum Direction {
     UP("U", "위", 1),
     DOWN("D", "아래", 0);
 
@@ -10,7 +10,7 @@ public enum MovingDirection {
     private final String description;
     private final int directionNumber;
 
-    MovingDirection(String shortcut, String description, int directionNumber) {
+    Direction(String shortcut, String description, int directionNumber) {
         this.shortcut = shortcut;
         this.description = description;
         this.directionNumber = directionNumber;
@@ -20,11 +20,11 @@ public enum MovingDirection {
     public static String getGuide() {
         StringBuilder guides = new StringBuilder();
         int count = 0;
-        int totalDirectionCount = MovingDirection.values().length;
+        int totalDirectionCount = Direction.values().length;
 
         guides.append("(");
-        for (MovingDirection directions :
-                MovingDirection.values()) {
+        for (Direction directions :
+                Direction.values()) {
             count++;
             guides.append(directions.description).append(": ").append(directions.shortcut);
             if (count != totalDirectionCount) {
@@ -36,18 +36,18 @@ public enum MovingDirection {
     }
 
     public static boolean contains(String input) {
-        return Arrays.stream(MovingDirection.values())
+        return Arrays.stream(Direction.values())
                 .map(element -> element.shortcut)
                 .anyMatch(direction -> direction.equals(input));
     }
 
     public static String findDirection(int number) {
-        return Arrays.stream(MovingDirection.values())
+        return Arrays.stream(Direction.values())
                 .filter(element -> element.directionNumber == number)
                 .findFirst().get().shortcut;
     }
-    public static MovingDirection find(String direction) {
-        return Arrays.stream(MovingDirection.values())
+    public static Direction find(String direction) {
+        return Arrays.stream(Direction.values())
                 .filter(element -> element.shortcut.equals(direction))
                 .findFirst().get();
     }

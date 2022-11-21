@@ -15,7 +15,7 @@ public class OutputView {
         System.out.println();
         System.out.println(message);
     }
-    public void printSpaceLineAndMessageAddGuide(String message, String guide) {
+    public void printSpaceLineAndMessage(String message, String guide) {
         System.out.println();
         System.out.println(message + " " + guide);
     }
@@ -54,21 +54,4 @@ public class OutputView {
         message.append(Announcement.FAIL.getMessage());
     }
 
-//    public static String makeGuide(EnumMap enums) {
-//        StringBuilder guides = new StringBuilder();
-//        int count = 0;
-//        int totalCommandCount = GameCommand.values().length;
-//
-//        guides.append("(");
-//        for (Enum element:
-//                EnumMap.values()) {
-//            count++;
-//            guides.append(gameCommand.description).append(": ").append(gameCommand.shortcut);
-//            if (count != totalCommandCount) {
-//                guides.append(", ");
-//            }
-//        }
-//        guides.append(")");
-//        return guides.toString();
-//    }
 }

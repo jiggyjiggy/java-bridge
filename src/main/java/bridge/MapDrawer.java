@@ -1,7 +1,7 @@
 package bridge;
 
 import bridge.enums.MapStructure;
-import bridge.enums.MovingDirection;
+import bridge.enums.Direction;
 
 public class MapDrawer {
     private StringBuilder upSide;
@@ -10,7 +10,7 @@ public class MapDrawer {
     public String drawMap(BridgeGame bridgeGame, int nowStage) {
         initializeMap();
         for (int stage = 1; stage <= nowStage; stage++) {
-            MovingDirection direction = MovingDirection.find(bridgeGame.getBridge().get(stage));
+            Direction direction = Direction.find(bridgeGame.getBridge().get(stage));
 
             if (!bridgeGame.isNowStage(stage)) {
                 makePassMap(direction, upSide, downSide);
@@ -29,7 +29,7 @@ public class MapDrawer {
         upSide = new StringBuilder();
         downSide = new StringBuilder();
     }
-    private void makePassMap(MovingDirection direction, StringBuilder upSide, StringBuilder downSide) {
+    private void makePassMap(Direction direction, StringBuilder upSide, StringBuilder downSide) {
         if (direction.isUp()) {
             addCorrectMark(upSide);
             addWhiteSpace(downSide);
@@ -39,7 +39,7 @@ public class MapDrawer {
             addCorrectMark(downSide);
         }
     }
-    private void makeNonPassMap(MovingDirection direction, StringBuilder upSide, StringBuilder downSide) {
+    private void makeNonPassMap(Direction direction, StringBuilder upSide, StringBuilder downSide) {
         if (direction.isUp()) {
             addWhiteSpace(upSide);
             addUnCorrectMark(downSide);

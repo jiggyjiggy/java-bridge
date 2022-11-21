@@ -1,7 +1,6 @@
 package bridge;
 
-import bridge.enums.MapStructure;
-import bridge.enums.MovingDirection;
+import bridge.enums.Direction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +25,7 @@ public class BridgeMaker {
 
         for (int i = 0; i < size; i++) {
             int number = bridgeNumberGenerator.generate();
-            directions.add(MovingDirection.findDirection(number));
+            directions.add(Direction.findDirection(number));
         }
         return directions;
     }

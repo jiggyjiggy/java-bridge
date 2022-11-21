@@ -1,6 +1,6 @@
 package bridge;
 
-import bridge.enums.MovingDirection;
+import bridge.enums.Direction;
 
 import java.util.List;
 
@@ -19,8 +19,8 @@ public class Bridge {
     public List<String> getDirectionsByStage(int stage) {
         return directions.subList(0, stage);
     }
-    public boolean isDirectionMatched(int stage, MovingDirection direction) {
-        return MovingDirection.find(directions.get(stage-1)).equals(direction);
+    public boolean isDirectionMatched(int stage, Direction direction) {
+        return Direction.find(directions.get(stage-1)).equals(direction);
     }
     public boolean isLastStage(int stage) {
         return directions.size() == stage;
