@@ -1,6 +1,8 @@
 package bridge.enums;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public enum Direction {
     UP("U", "위", 1),
@@ -50,6 +52,11 @@ public enum Direction {
         return Arrays.stream(Direction.values())
                 .filter(element -> element.shortcut.equals(direction))
                 .findFirst().get();
+    }
+    public static List<Direction> convertBridge(List<String> directions) {
+        return directions.stream()
+                .map(Direction::find)
+                .collect(Collectors.toList());
     }
 
     public boolean isUp() {

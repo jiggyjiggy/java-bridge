@@ -1,6 +1,5 @@
 package bridge.view;
 
-import bridge.MapDrawer;
 import bridge.enums.Announcement;
 import bridge.BridgeGame;
 
@@ -8,6 +7,12 @@ import bridge.BridgeGame;
  * 사용자에게 게임 진행 상황과 결과를 출력하는 역할을 한다.
  */
 public class OutputView {
+    MapDrawer mapDrawer;
+    String map;
+    public OutputView(MapDrawer mapDrawer) {
+        this.mapDrawer = mapDrawer;
+    }
+
     public void printMessage(String message) {
         System.out.println(message);
     }
@@ -26,9 +31,10 @@ public class OutputView {
      * 출력을 위해 필요한 메서드의 인자(parameter)는 자유롭게 추가하거나 변경할 수 있다.
      */
     public void printMap(BridgeGame bridgeGame) {
-        MapDrawer mapDrawer = new MapDrawer();
-        int nowStage = bridgeGame.getBridge().getDirectionsByStage(bridgeGame.getStage()).size();
-        System.out.println(mapDrawer.drawMap(bridgeGame, nowStage));
+        int currentStage = bridgeGame.getStage();
+        int nowStage = bridgeGame.getBridge().slicedBridge(currentStage).size();
+        map = mapDrawer.drawMap(bridgeGame, nowStage);
+        System.out.println(map);
     }
 
     /**
@@ -38,7 +44,7 @@ public class OutputView {
      */
     public void printResult(BridgeGame bridgeGame) {
         printSpaceLineAndMessage(Announcement.GAME_FINISH.getMessage());
-        printMap(bridgeGame);
+        printMessage(map);
         System.out.println();
         StringBuilder clearOrNotMessage = new StringBuilder();
         clearOrNotMessage.append(Announcement.GAME_CLEAR_OR_NOT.getMessage());

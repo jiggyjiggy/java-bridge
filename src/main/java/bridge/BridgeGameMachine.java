@@ -1,31 +1,35 @@
 package bridge;
 
 import bridge.enums.Announcement;
+import bridge.enums.Direction;
 import bridge.enums.GameCommand;
 import bridge.view.InputView;
+import bridge.view.MapDrawer;
 import bridge.view.OutputView;
 
 public class BridgeGameMachine {
     InputView inputView;
     OutputView outputView;
+    MapDrawer mapDrawer;
     BridgeMaker bridgeMaker;
     BridgeGame bridgeGame;
-
-    public void launch() {
-        inputView = new InputView();
-        outputView = new OutputView();
-        bridgeMaker = new BridgeMaker(new BridgeRandomNumberGenerator());
+    public BridgeGameMachine() {
+        this.mapDrawer = new MapDrawer();
+        this.outputView = new OutputView(this.mapDrawer);
+        this.inputView = new InputView(this.outputView);
+        this.bridgeMaker = new BridgeMaker(new BridgeRandomNumberGenerator());
     }
 
     public void setUpGame() {
-        Bridge bridge = new Bridge(bridgeMaker.makeBridge(inputView.readBridgeSize()));
-        bridgeGame = new BridgeGame(bridge);
+        int bridgeSize = inputView.readBridgeSize();
+        Bridge bridge = new Bridge(bridgeMaker.makeBridge(bridgeSize));
+        bridgeGame = new BridgeGame(bridge, mapDrawer);
     }
 
     public void gameStart() {
         outputView.printMessage(Announcement.GAME_START.getMessage());
         while (bridgeGame.isRunning()) {
-            playStage();
+            play();
             if (bridgeGame.isCleared()) {
                 break;
             }
@@ -33,9 +37,10 @@ public class BridgeGameMachine {
         }
     }
 
-    private void playStage() {
+    private void play() {
         do {
-            bridgeGame.move(inputView.readMoving());
+            Direction direction = inputView.readMoving();
+            bridgeGame.move(direction);
             outputView.printMap(bridgeGame);
         } while (bridgeGame.canMoving());
     }

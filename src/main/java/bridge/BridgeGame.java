@@ -1,6 +1,9 @@
 package bridge;
 
 import bridge.enums.Direction;
+import bridge.enums.GameProgressState;
+import bridge.enums.StageState;
+import bridge.view.MapDrawer;
 
 /**
  * 다리 건너기 게임을 관리하는 클래스
@@ -8,16 +11,18 @@ import bridge.enums.Direction;
 public class BridgeGame {
     private final Bridge bridge;
     private int stage;
-    private boolean directionMatchState;
-    private int retryCount;
-    private boolean runningState;
+    private int tryCount;
+    private final MapDrawer mapDrawer;
+    private StageState stageState;
+    private GameProgressState progressState;
 
-    public BridgeGame(Bridge bridge) {
+    public BridgeGame(Bridge bridge, MapDrawer mapDrawer) {
         this.bridge = bridge;
         this.stage = 0;
-        this.directionMatchState = true;
-        this.retryCount = 0;
-        this.runningState = true;
+        this.tryCount = 1;
+        this.stageState = null;
+        this.progressState = GameProgressState.RUNNING;
+        this.mapDrawer = mapDrawer;
     }
 
     /**
@@ -27,7 +32,18 @@ public class BridgeGame {
      */
     public void move(Direction direction) {
         stage++;
-        directionMatchState = bridge.isDirectionMatched(stage, direction);
+        boolean isDirectionMatched = bridge.isDirectionMatched(stage, direction);
+        updateStageState(isDirectionMatched);
+        if (stageState.isPassed() && bridge.isLastStage(stage)) {
+            progressState = GameProgressState.GAME_CLEAR;
+        }
+    }
+    private void updateStageState(boolean isDirectionMatched) {
+        if (isDirectionMatched) {
+            stageState = StageState.PASS;
+            return;
+        }
+        stageState = StageState.NON_PASS;
     }
 
     /**
@@ -37,24 +53,24 @@ public class BridgeGame {
      */
     public void retry() {
         stage = 0;
-        retryCount++;
-        runningState = true;
+        tryCount++;
+        progressState = GameProgressState.RUNNING;
+        mapDrawer.initializeMap();
     }
-
     public void quit() {
-        runningState = false;
+        progressState = GameProgressState.STOP;
     }
     public boolean canMoving() {
-        return directionMatchState && !bridge.isLastStage(stage);
+        return stageState.isPassed() && !bridge.isLastStage(stage);
     }
     public boolean isCleared() {
-        return directionMatchState && bridge.isLastStage(stage);
+        return progressState.isGameCleared();
     }
     public boolean isRunning() {
-        return runningState;
+        return progressState.isRunning();
     }
     public int getTotalTryCount() {
-        return 1 + retryCount;
+        return tryCount;
     }
     public Bridge getBridge() {
         return bridge;
@@ -62,11 +78,11 @@ public class BridgeGame {
     public int getStage() {
         return stage;
     }
-    public boolean isNowStage(int stage) {
+    public boolean isCurrentStage(int stage) {
         return this.stage == stage;
     }
-    public boolean isNowStageDirectionMatched() {
-        return this.directionMatchState;
+    public boolean isCurrentStageDirectionMatched() {
+        return stageState.isPassed();
     }
 
 }

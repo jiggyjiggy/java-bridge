@@ -12,26 +12,34 @@ import camp.nextstep.edu.missionutils.Console;
  * 사용자로부터 입력을 받는 역할을 한다.
  */
 public class InputView {
-    OutputView outputView = new OutputView();
-
+    OutputView outputView;
+    public InputView(OutputView outputView) {
+        this.outputView = outputView;
+    }
     /**
      * 다리의 길이를 입력받는다.
      */
     public int readBridgeSize() {
-        try {
-            outputView.printSpaceLineAndMessage(Announcement.INPUT_BRIDGE_SIZE.getMessage());
-            String input = Console.readLine();
-            validateBridgeSize(input);
-            return Integer.parseInt(input);
-        } catch (IllegalArgumentException illegalArgumentException) {
-            outputView.printMessage(illegalArgumentException.getMessage());
-            return readBridgeSize();
+        String input;
+        while (true) {
+            try {
+                input = inputBridgeSize();
+                break;
+            } catch (IllegalArgumentException illegalArgumentException) {
+                outputView.printMessage(illegalArgumentException.getMessage());
+            }
         }
+        return Integer.parseInt(input);
     }
-    private void validateBridgeSize(String input) {
+
+    private String inputBridgeSize() {
+        outputView.printSpaceLineAndMessage(Announcement.INPUT_BRIDGE_SIZE.getMessage());
+        String input = Console.readLine();
         validateInteger(input);
-        validateRange(input);
+        validateBridgeRange(input);
+        return input;
     }
+
     private void validateInteger(String input) {
         try {
             Integer.parseInt(input);
@@ -39,7 +47,7 @@ public class InputView {
             throw new BridgeSizeException(numberFormatException.getMessage());
         }
     }
-    private void validateRange(String input) {
+    private void validateBridgeRange(String input) {
         int inputNumber = Integer.parseInt(input);
         if (inputNumber < 3 || 20 < inputNumber) {
             throw new BridgeSizeException(input);
@@ -50,17 +58,24 @@ public class InputView {
      * 사용자가 이동할 칸을 입력받는다.
      */
     public Direction readMoving() {
-        try {
-            outputView.printSpaceLineAndMessage(Announcement.INPUT_MOVING_DIRECTION.getMessage(), Direction.getGuide());
-            String input = Console.readLine();
-            validateMoving(input);
-            return Direction.find(input);
-        } catch (IllegalArgumentException illegalArgumentException) {
-            outputView.printMessage(illegalArgumentException.getMessage());
-            return readMoving();
+        String input;
+        while (true) {
+            try {
+                input = inputMoving();
+                break;
+            } catch (IllegalArgumentException illegalArgumentException) {
+                outputView.printMessage(illegalArgumentException.getMessage());
+            }
         }
+        return Direction.find(input);
     }
 
+    private String inputMoving() {
+        outputView.printSpaceLineAndMessage(Announcement.INPUT_MOVING_DIRECTION.getMessage(), Direction.getGuide());
+        String input = Console.readLine();
+        validateMoving(input);
+        return input;
+    }
     private void validateMoving(String input) {
         if (!Direction.contains(input)) {
             throw new DirectionException(
@@ -72,16 +87,23 @@ public class InputView {
     /**
      * 사용자가 게임을 다시 시도할지 종료할지 여부를 입력받는다.
      */
-    public GameCommand readGameCommand() {
-        try {
-            outputView.printSpaceLineAndMessage(Announcement.INPUT_RETRY_OR_QUIT.getMessage(), GameCommand.getGuide());
-            String input = Console.readLine();
-            validateGameCommand(input);
-            return GameCommand.find(input);
-        } catch (IllegalArgumentException illegalArgumentException) {
-            outputView.printMessage(illegalArgumentException.getMessage());
-            return readGameCommand();
+    public GameCommand readGameCommand() throws GameCommandException {
+        String input;
+        while (true) {
+            try {
+                input = inputGameCommand();
+                break;
+            } catch (IllegalArgumentException illegalArgumentException) {
+                outputView.printMessage(illegalArgumentException.getMessage());
+            }
         }
+        return GameCommand.find(input);
+    }
+    private String inputGameCommand() {
+        outputView.printSpaceLineAndMessage(Announcement.INPUT_RETRY_OR_QUIT.getMessage(), GameCommand.getGuide());
+        String input = Console.readLine();
+        validateGameCommand(input);
+        return input;
     }
     private void validateGameCommand(String input) {
         if (!GameCommand.contains(input)) {

@@ -1,4 +1,4 @@
-package bridge.exception;
+package bridge.enums;
 
 public enum ExceptionType {
     BRIDGE_SIZE_RANGE("다리 길이는 3부터 20 사이의 숫자여야 합니다."),

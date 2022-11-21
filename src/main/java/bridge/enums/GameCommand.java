@@ -5,7 +5,6 @@ import java.util.Arrays;
 public enum GameCommand {
     RETRY("R", "재시도"),
     QUIT("Q", "종료");
-
     private final String shortcut;
     private final String description;
     GameCommand(String shortcut, String description) {
