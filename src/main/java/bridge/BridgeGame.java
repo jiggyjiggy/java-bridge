@@ -6,21 +6,13 @@ import bridge.enums.Direction;
  * 다리 건너기 게임을 관리하는 클래스
  */
 public class BridgeGame {
-    private final BridgeMaker bridgeMaker;
     private final Bridge bridge;
-
     private int stage;
-
-    public int getStage() {
-        return stage;
-    }
-
     private boolean directionMatchState;
     private int retryCount;
     private boolean runningState;
 
-    public BridgeGame(Bridge bridge, BridgeMaker bridgeMaker) {
-        this.bridgeMaker = bridgeMaker;
+    public BridgeGame(Bridge bridge) {
         this.bridge = bridge;
         this.stage = 0;
         this.directionMatchState = true;
@@ -66,6 +58,9 @@ public class BridgeGame {
     }
     public Bridge getBridge() {
         return bridge;
+    }
+    public int getStage() {
+        return stage;
     }
     public boolean isNowStage(int stage) {
         return this.stage == stage;

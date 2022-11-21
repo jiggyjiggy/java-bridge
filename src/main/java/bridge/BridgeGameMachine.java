@@ -19,7 +19,7 @@ public class BridgeGameMachine {
 
     public void setUpGame() {
         Bridge bridge = new Bridge(bridgeMaker.makeBridge(inputView.readBridgeSize()));
-        bridgeGame = new BridgeGame(bridge, bridgeMaker);
+        bridgeGame = new BridgeGame(bridge);
     }
 
     public void gameStart() {
@@ -34,11 +34,12 @@ public class BridgeGameMachine {
     }
 
     private void playStage() {
-        while (bridgeGame.canMoving()) {
+        do {
             bridgeGame.move(inputView.readMoving());
             outputView.printMap(bridgeGame);
-        }
+        } while (bridgeGame.canMoving());
     }
+
     private void askRetryOrQuit() {
         GameCommand command = inputView.readGameCommand();
         if (command.isRetry()) {
