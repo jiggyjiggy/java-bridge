@@ -16,9 +16,6 @@ public class Bridge {
     public Direction get(int stage) {
         return directions.get(stage - 1);
     }
-    public List<Direction> slicedBridge(int stage) {
-        return directions.subList(0, stage);
-    }
     public boolean isDirectionMatched(int stage, Direction direction) {
         return directions.get(stage - 1).equals(direction);
     }

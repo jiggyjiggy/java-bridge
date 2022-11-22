@@ -33,8 +33,7 @@ public class OutputView {
      */
     public void printMap(BridgeGame bridgeGame) {
         int currentStage = bridgeGame.getStage();
-        int nowStage = bridgeGame.getBridge().slicedBridge(currentStage).size();
-        map = mapDrawer.drawMap(bridgeGame, nowStage);
+        map = mapDrawer.drawMap(bridgeGame, currentStage);
         System.out.println(map);
     }
 
