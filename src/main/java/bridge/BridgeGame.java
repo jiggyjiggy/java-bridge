@@ -3,7 +3,7 @@ package bridge;
 import bridge.enums.Direction;
 import bridge.enums.GameProgressState;
 import bridge.enums.StageState;
-import bridge.view.MapDrawer;
+import bridge.UI.output.MapDrawer;
 
 /**
  * 다리 건너기 게임을 관리하는 클래스
@@ -77,9 +77,6 @@ public class BridgeGame {
     }
     public int getStage() {
         return stage;
-    }
-    public boolean isCurrentStage(int stage) {
-        return this.stage == stage;
     }
     public boolean isCurrentStageDirectionMatched() {
         return stageState.isPassed();

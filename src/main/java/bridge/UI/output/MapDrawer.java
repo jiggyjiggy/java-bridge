@@ -1,4 +1,4 @@
-package bridge.view;
+package bridge.UI.output;
 
 import bridge.BridgeGame;
 import bridge.enums.MapStructure;

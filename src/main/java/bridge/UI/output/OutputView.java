@@ -1,5 +1,6 @@
-package bridge.view;
+package bridge.UI.output;
 
+import bridge.UI.output.MapDrawer;
 import bridge.enums.Announcement;
 import bridge.BridgeGame;
 

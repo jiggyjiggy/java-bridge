@@ -3,16 +3,16 @@ package bridge;
 import bridge.enums.Announcement;
 import bridge.enums.Direction;
 import bridge.enums.GameCommand;
-import bridge.view.InputView;
-import bridge.view.MapDrawer;
-import bridge.view.OutputView;
+import bridge.UI.Input.InputView;
+import bridge.UI.output.MapDrawer;
+import bridge.UI.output.OutputView;
 
 public class BridgeGameMachine {
-    InputView inputView;
-    OutputView outputView;
-    MapDrawer mapDrawer;
-    BridgeMaker bridgeMaker;
-    BridgeGame bridgeGame;
+    private final InputView inputView;
+    private final OutputView outputView;
+    private final MapDrawer mapDrawer;
+    private final BridgeMaker bridgeMaker;
+    private BridgeGame bridgeGame;
     public BridgeGameMachine() {
         this.mapDrawer = new MapDrawer();
         this.outputView = new OutputView(this.mapDrawer);

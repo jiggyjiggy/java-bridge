@@ -1,4 +1,4 @@
-package bridge.view;
+package bridge.UI.Input;
 
 import bridge.enums.Announcement;
 import bridge.enums.GameCommand;
@@ -6,6 +6,7 @@ import bridge.enums.Direction;
 import bridge.exception.BridgeSizeException;
 import bridge.exception.GameCommandException;
 import bridge.exception.DirectionException;
+import bridge.UI.output.OutputView;
 import camp.nextstep.edu.missionutils.Console;
 
 /**
